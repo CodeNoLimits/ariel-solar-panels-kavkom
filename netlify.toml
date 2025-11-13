@@ -1,0 +1,51 @@
+# Configuration Netlify pour Landing Page Panneaux Solaires
+
+[build]
+  publish = "."
+  command = "echo 'No build step required'"
+
+# Redirections (SPA fallback)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Headers pour les assets statiques (cache)
+[[headers]]
+  for = "/styles.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/script.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Configuration Netlify Forms (si utilisé)
+# Les formulaires HTML avec attribut "netlify" seront automatiquement capturés
+# Voir: https://docs.netlify.com/forms/setup/
+
+# Variables d'environnement (optionnel)
+# [context.production.environment]
+#   GA_MEASUREMENT_ID = "G-XXXXXXXXXX"
+#   WEBHOOK_URL = "https://votre-webhook.com/leads"
+
+# [context.deploy-preview.environment]
+#   GA_MEASUREMENT_ID = "G-XXXXXXXXXX"
+
+

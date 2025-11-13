@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - ARIEL SOLAR | Devis Gratuit Panneaux Solaires</title>
+    <meta name="description" content="Contactez ARIEL SOLAR pour un devis gratuit panneaux solaires. Installateurs certifiés RGE en France.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <!-- Navigation générée par navigation.js -->
+
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 120px 0 80px; min-height: 60vh;">
+        <div class="container">
+            <div class="hero-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h1>Contactez-Nous</h1>
+                <h2>Une question ? Un projet ? Notre équipe est à votre écoute</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="eligibility-form-section" style="padding: 80px 0;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;">
+                <!-- Formulaire Contact -->
+                <div>
+                    <h2 style="margin-bottom: 30px;">Envoyez-nous un Message</h2>
+                    <form id="contact-form" class="eligibility-form" netlify>
+                        <div class="form-row">
+                            <label for="contact-name">Nom complet *</label>
+                            <input type="text" name="name" id="contact-name" placeholder="Votre nom" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="contact-email">Email *</label>
+                            <input type="email" name="email" id="contact-email" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="contact-phone">Téléphone</label>
+                            <input type="tel" name="phone" id="contact-phone" placeholder="06 12 34 56 78">
+                        </div>
+                        <div class="form-row">
+                            <label for="contact-subject">Sujet *</label>
+                            <select name="subject" id="contact-subject" required>
+                                <option value="">Sélectionnez un sujet</option>
+                                <option value="devis">Demande de devis</option>
+                                <option value="info">Demande d'information</option>
+                                <option value="aide">Question sur les aides</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="contact-message">Message *</label>
+                            <textarea name="message" id="contact-message" rows="6" placeholder="Votre message..." required style="width: 100%; padding: 15px; font-size: 16px; border: 2px solid var(--border-color); border-radius: 10px; font-family: inherit; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="cta-button-primary" style="width: 100%;">
+                            Envoyer le Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Informations Contact -->
+                <div>
+                    <h2 style="margin-bottom: 30px;">Nos Coordonnées</h2>
+                    <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: var(--shadow);">
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 10px;">📧 Email</h3>
+                            <p style="font-size: 1.1rem;">contact@arielsolar.fr</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 10px;">📞 Téléphone</h3>
+                            <p style="font-size: 1.1rem;">01 XX XX XX XX</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 10px;">📍 Adresse</h3>
+                            <p style="font-size: 1.1rem;">Paris, France</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 10px;">🕒 Horaires</h3>
+                            <p style="font-size: 1.1rem;">Lundi - Vendredi: 9h - 18h<br>Samedi: 9h - 12h</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 40px; text-align: center;">
+                        <a href="index.html#eligibility-form" class="cta-button-primary">
+                            Vérifier Mon Éligibilité
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer généré par navigation.js -->
+
+    <script src="navigation.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+

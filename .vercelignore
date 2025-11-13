@@ -1,0 +1,5 @@
+node_modules
+.git
+*.md
+CURSOR_SYNC.md
+CONFIG_EMAIL_URGENT.md
