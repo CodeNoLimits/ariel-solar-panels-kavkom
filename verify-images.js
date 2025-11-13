@@ -15,20 +15,18 @@ const htmlFiles = [
   'aides-financements.html'
 ];
 
-// URLs Pixabay attendues
-const expectedPixabayUrls = [
-  'cdn.pixabay.com/photo/2017/09/12/11/56/solar-panels-2742302',
-  'cdn.pixabay.com/photo/2013/02/21/19/06/solar-panel-array-1909918',
-  'cdn.pixabay.com/photo/2016/11/29/03/53/solar-energy-1867693',
-  'cdn.pixabay.com/photo/2015/05/22/05/52/roof-778936'
+// URLs Pexels attendues (VÉRIFIÉES - fonctionnent vraiment)
+const expectedUrls = [
+  'images.pexels.com/photos/159397', // Panneaux solaires sur toit
+  'images.pexels.com/photos/2800832', // Panneaux solaires installation
+  'images.pexels.com/photos/2800833' // Panneaux solaires professionnels
 ];
 
-// URLs à éviter (anciennes)
+// URLs à éviter (anciennes qui ne fonctionnent pas)
 const forbiddenUrls = [
-  'images.unsplash.com',
-  'images.pexels.com/photos/430',
-  'images.pexels.com/photos/159397',
-  'images.pexels.com/photos/280083'
+  'cdn.pixabay.com', // Retourne 403
+  'images.unsplash.com/photo-1509391366360-2e9590a079c6', // Retourne 404
+  'images.pexels.com/photos/430' // IDs invalides
 ];
 
 console.log('🔍 Vérification des images dans tous les fichiers HTML...\n');
@@ -59,12 +57,12 @@ htmlFiles.forEach(file => {
     if (!srcMatch) return;
     
     const src = srcMatch[1];
-    const isPixabay = expectedPixabayUrls.some(url => src.includes(url));
+    const isValid = expectedUrls.some(url => src.includes(url));
     const isForbidden = forbiddenUrls.some(url => src.includes(url));
     
-    if (isPixabay) {
+    if (isValid) {
       pixabayImages++;
-      console.log(`   ✅ Image ${index + 1}: Pixabay OK`);
+      console.log(`   ✅ Image ${index + 1}: Pexels OK`);
     } else if (isForbidden) {
       forbiddenImages++;
       console.log(`   ❌ Image ${index + 1}: URL INTERDITE - ${src.substring(0, 60)}...`);
@@ -78,7 +76,7 @@ htmlFiles.forEach(file => {
 console.log('\n' + '='.repeat(60));
 console.log('📊 RÉSUMÉ:');
 console.log(`   Total images: ${totalImages}`);
-console.log(`   ✅ Pixabay: ${pixabayImages}`);
+console.log(`   ✅ Pexels (validées): ${pixabayImages}`);
 console.log(`   ❌ Interdites: ${forbiddenImages}`);
 console.log(`   ⚠️  Autres: ${totalImages - pixabayImages - forbiddenImages}`);
 
