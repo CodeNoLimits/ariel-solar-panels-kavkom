@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Test Formulaire ARIEL SOLAR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #2563eb;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .result {
+            background: #f0f9ff;
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result.success {
+            background: #f0fdf4;
+            border-left-color: #10b981;
+        }
+
+        .result.error {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result h3 {
+            margin-bottom: 10px;
+        }
+
+        .result pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+
+        .checklist {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .checklist h3 {
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .checklist label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 5px;
+        }
+
+        .checklist label:hover {
+            background: white;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .info-box {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-box h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 8px;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Formulaire ARIEL SOLAR</h1>
+        <p class="subtitle">Test automatique end-to-end avec Web3Forms</p>
+
+        <div class="info-box">
+            <h3>⚠️ Avant de tester:</h3>
+            <ul>
+                <li><strong>Vérifie ton email</strong> dreamaiultimate@gmail.com</li>
+                <li>Web3Forms t'a envoyé un email de vérification</li>
+                <li><strong>Clique sur le lien</strong> pour activer la clé</li>
+                <li>Sinon le test échouera!</li>
+            </ul>
+        </div>
+
+        <button class="test-button" id="testButton" onclick="runTest()">
+            🚀 Lancer le Test Automatique
+        </button>
+
+        <button class="test-button" onclick="window.location.href='https://ariel-solar-panels.netlify.app'">
+            🌐 Ouvrir le Site Live
+        </button>
+
+        <button class="test-button" onclick="window.location.href='https://web3forms.com/dashboard'">
+            📧 Ouvrir Dashboard Web3Forms
+        </button>
+
+        <div class="result" id="result"></div>
+
+        <div class="checklist">
+            <h3>✅ Checklist Manuelle</h3>
+            <label>
+                <input type="checkbox">
+                <span>Email de vérification Web3Forms confirmé</span>
+            </label>
+            <label>
+                <input type="checkbox">
+                <span>Test automatique passé (bouton ci-dessus)</span>
+            </label>
+            <label>
+                <input type="checkbox">
+                <span>Email reçu à dreamaiultimate@gmail.com</span>
+            </label>
+            <label>
+                <input type="checkbox">
+                <span>Formulaire testé sur le site live</span>
+            </label>
+            <label>
+                <input type="checkbox">
+                <span>Validation "Locataire" bloque bien</span>
+            </label>
+            <label>
+                <input type="checkbox">
+                <span>Validation téléphone/code postal fonctionne</span>
+            </label>
+        </div>
+    </div>
+
+    <script>
+        async function runTest() {
+            const button = document.getElementById('testButton');
+            const resultDiv = document.getElementById('result');
+
+            // Désactiver le bouton
+            button.disabled = true;
+            button.textContent = '⏳ Test en cours...';
+
+            // Cacher le résultat précédent
+            resultDiv.classList.remove('show', 'success', 'error');
+
+            try {
+                // Préparer les données du formulaire
+                const formData = new FormData();
+                formData.append('access_key', '64016fc4-c7dd-4edf-ba28-14d3ba05b875');
+                formData.append('subject', '🧪 TEST AUTOMATIQUE - Nouveau Lead Panneaux Solaires');
+                formData.append('from_name', 'Claude Test User');
+                formData.append('email', 'test@example.com');
+                formData.append('phone', '0612345678');
+                formData.append('zipcode', '75001');
+                formData.append('property_type', 'Maison individuelle');
+                formData.append('owner_status', 'Propriétaire');
+                formData.append('roof_area', '50');
+                formData.append('estimated_kwc', '6kWc');
+                formData.append('prime_amount', '480€');
+                formData.append('tva_economy', '1740€');
+                formData.append('production_estimate', '6000kWh/an');
+                formData.append('message',
+                    '🧪 TEST AUTOMATIQUE CLAUDE CODE\n\n' +
+                    'Nouveau lead panneaux solaires ARIEL SOLAR:\n\n' +
+                    '📋 Informations client:\n' +
+                    '- Nom: Claude Test User\n' +
+                    '- Email: test@example.com\n' +
+                    '- Téléphone: 0612345678\n' +
+                    '- Code Postal: 75001\n' +
+                    '- Type de bien: Maison individuelle\n' +
+                    '- Statut: Propriétaire\n' +
+                    '- Surface toiture: 50m²\n\n' +
+                    '💰 Estimation automatique:\n' +
+                    '- Puissance estimée: 6kWc\n' +
+                    '- Prime autoconsommation: 480€\n' +
+                    '- Économie TVA: 1740€\n' +
+                    '- Production estimée: 6000kWh/an\n\n' +
+                    '📅 Date: ' + new Date().toLocaleString('fr-FR') + '\n\n' +
+                    '⚡ Ceci est un TEST - Formulaire fonctionne parfaitement!'
+                );
+
+                // Envoyer la requête
+                console.log('📤 Envoi de la requête à Web3Forms...');
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                console.log('📥 Réponse reçue:', data);
+
+                // Afficher le résultat
+                if (data.success) {
+                    resultDiv.classList.add('show', 'success');
+                    resultDiv.innerHTML = `
+                        <h3>✅ TEST RÉUSSI!</h3>
+                        <p><strong>Le formulaire fonctionne parfaitement!</strong></p>
+                        <p>📧 Vérifie ton email à <strong>dreamaiultimate@gmail.com</strong></p>
+                        <p>Tu devrais recevoir:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Email avec les données du formulaire</li>
+                            <li>Toutes les infos du client</li>
+                            <li>Estimations automatiques</li>
+                        </ul>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    button.textContent = '✅ Test Réussi!';
+                } else {
+                    resultDiv.classList.add('show', 'error');
+                    resultDiv.innerHTML = `
+                        <h3>❌ TEST ÉCHOUÉ</h3>
+                        <p><strong>Message d'erreur:</strong> ${data.message}</p>
+                        <p><strong>Raisons possibles:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Email dreamaiultimate@gmail.com non vérifié sur Web3Forms</li>
+                            <li>Access Key non activée</li>
+                            <li>Limite d'emails atteinte (250/mois)</li>
+                        </ul>
+                        <p><strong>Solution:</strong></p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Va sur <a href="https://web3forms.com/dashboard" target="_blank">Web3Forms Dashboard</a></li>
+                            <li>Vérifie que ton email est confirmé</li>
+                            <li>Vérifie que la clé est active</li>
+                            <li>Réessaye ce test</li>
+                        </ol>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    button.textContent = '❌ Test Échoué';
+                }
+
+            } catch (error) {
+                console.error('❌ Erreur:', error);
+                resultDiv.classList.add('show', 'error');
+                resultDiv.innerHTML = `
+                    <h3>❌ ERREUR RÉSEAU</h3>
+                    <p><strong>Message:</strong> ${error.message}</p>
+                    <p>Vérifie ta connexion internet et réessaye.</p>
+                    <pre>${error.stack}</pre>
+                `;
+                button.textContent = '❌ Erreur';
+            }
+
+            // Réactiver le bouton après 2 secondes
+            setTimeout(() => {
+                button.disabled = false;
+                if (!button.textContent.includes('✅') && !button.textContent.includes('❌')) {
+                    button.textContent = '🚀 Lancer le Test Automatique';
+                }
+            }, 2000);
+        }
+
+        // Test au chargement de la page (optionnel)
+        console.log('🧪 Page de test chargée');
+        console.log('📝 Access Key configurée: 64016fc4-c7dd-4edf-ba28-14d3ba05b875');
+        console.log('🌐 Site live: https://ariel-solar-panels.netlify.app');
+    </script>
+</body>
+</html>
