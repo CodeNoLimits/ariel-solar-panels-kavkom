@@ -249,14 +249,30 @@ function initForm() {
       let aiAnalysis = null;
       try {
         aiAnalysis = await analyzeEligibilityWithGemini(data);
+        console.log('✅ Analyse Gemini réussie:', aiAnalysis);
       } catch (error) {
         console.warn('⚠️ Analyse Gemini échouée, utilisation du calcul standard:', error);
       }
       
-      // Calcul estimation aides selon surface toiture
+      // Calcul estimation aides selon surface toiture et résultat IA
       const roofArea = parseInt(data.roof_area) || 30; // Par défaut 30m²
-      const estimatedKwc = aiAnalysis?.estimatedKwc || Math.min(Math.floor(roofArea / 10) * 3, 9); // ~3kWc per 10m², max 9kWc
-      const primeAmount = estimatedKwc * 80; // 80€/kWc
+      
+      // PRIORITÉ: Utiliser le résultat de Gemini si disponible et valide
+      let estimatedKwc, primeAmount;
+      
+      if (aiAnalysis && aiAnalysis.estimatedKwc && aiAnalysis.primeAmount) {
+        // Utiliser directement les valeurs de Gemini
+        estimatedKwc = Math.min(Math.max(parseInt(aiAnalysis.estimatedKwc) || 3, 3), 9); // Entre 3 et 9kWc
+        primeAmount = parseInt(aiAnalysis.primeAmount) || (estimatedKwc * 80);
+        console.log('📊 Utilisation valeurs Gemini:', { estimatedKwc, primeAmount });
+      } else {
+        // Calcul dynamique basé sur la surface réelle
+        // Formule: ~3kWc par 10m² de toiture, avec limites réalistes
+        const baseKwc = Math.floor(roofArea / 10) * 3;
+        estimatedKwc = Math.min(Math.max(baseKwc, 3), 9); // Entre 3 et 9kWc
+        primeAmount = estimatedKwc * 80; // 80€/kWc en 2025
+        console.log('📊 Calcul standard basé sur surface:', { roofArea, estimatedKwc, primeAmount });
+      }
       
       // Calcul TVA économisée (approximatif)
       const estimatedCost = estimatedKwc * 2000; // ~2000€/kWc installation
@@ -380,20 +396,35 @@ document.addEventListener('keydown', function(e) {
 
 async function analyzeEligibilityWithGemini(formData) {
   try {
-    const prompt = `Analyse l'éligibilité d'un propriétaire français aux aides panneaux solaires 2025.
+    const roofArea = parseInt(formData.roof_area) || 30;
+    const propertyType = formData.property_type === 'house' ? 'Maison individuelle' : 'Appartement';
+    const ownerStatus = formData.owner_status === 'owner' ? 'Propriétaire' : 'Locataire';
+    
+    const prompt = `Tu es un expert en panneaux solaires photovoltaïques en France. Analyse l'éligibilité et calcule précisément les aides 2025.
 
-Informations:
-- Type de bien: ${formData.property_type === 'house' ? 'Maison individuelle' : 'Appartement'}
-- Statut: ${formData.owner_status === 'owner' ? 'Propriétaire' : 'Locataire'}
+INFORMATIONS CLIENT:
+- Type de bien: ${propertyType}
+- Statut: ${ownerStatus}
 - Code postal: ${formData.zipcode}
-- Surface toiture: ${formData.roof_area || 'Non renseigné'}m²
+- Surface toiture disponible: ${roofArea}m²
 
-Réponds en JSON avec:
+CALCULS REQUIS (2025):
+1. Puissance estimée (kWc): Basée sur la surface toiture (environ 3kWc par 10m², max 9kWc)
+   - Surface ${roofArea}m² → Calcul: ${roofArea}/10 * 3 = ${Math.floor(roofArea / 10) * 3}kWc (limité à 9kWc max)
+2. Prime autoconsommation 2025: 80€ par kWc installé
+3. TVA réduite 5.5%: Économie de ~14.5% sur le coût installation
+
+IMPORTANT: 
+- Si locataire: eligible = false
+- Si propriétaire maison: eligible = true, calculer selon surface
+- Si propriétaire appartement: eligible = true mais puissance limitée à 3-6kWc
+
+Réponds UNIQUEMENT en JSON valide (pas de texte avant/après):
 {
   "eligible": true/false,
-  "estimatedKwc": nombre entre 3 et 9,
+  "estimatedKwc": ${Math.min(Math.floor(roofArea / 10) * 3, 9)},
+  "primeAmount": ${Math.min(Math.floor(roofArea / 10) * 3, 9) * 80},
   "recommendations": "recommandations personnalisées en français",
-  "primeAmount": montant en euros,
   "additionalAids": ["liste des aides supplémentaires"]
 }`;
 
