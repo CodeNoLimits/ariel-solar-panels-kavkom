@@ -230,11 +230,15 @@ function initForm() {
       
       // Analyse IA avec Gemini
       let aiAnalysis = null;
+      let geminiWorked = false;
       try {
         aiAnalysis = await analyzeEligibilityWithGemini(data);
         console.log('✅ Analyse Gemini réussie:', aiAnalysis);
+        geminiWorked = true;
       } catch (error) {
         console.warn('⚠️ Analyse Gemini échouée, utilisation du calcul standard:', error);
+        // Note: On continue avec le calcul standard (fallback)
+        geminiWorked = false;
       }
       
       // Calcul estimation aides selon surface toiture et résultat IA
@@ -267,6 +271,7 @@ function initForm() {
         primeAmount,
         estimatedKwc,
         tvaEconomy,
+        annualProduction: aiAnalysis?.annualProduction, // Production de Gemini si disponible
         aiAnalysis: aiAnalysis?.recommendations,
         ...data
       });
@@ -292,7 +297,7 @@ function initForm() {
       
     } catch (error) {
       console.error('Erreur lors de la soumission:', error);
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      showFormError(`Une erreur est survenue lors de l'analyse.<br>Détails: ${error.message || 'Erreur inconnue'}<br><br>Veuillez réessayer ou nous contacter directement.`);
     } finally {
       submitButton.disabled = false;
       submitButton.innerHTML = originalText;
@@ -307,9 +312,13 @@ function initForm() {
 function showEligibilityResult(result) {
   const modal = document.getElementById('result-modal');
   const modalBody = document.getElementById('modal-body');
-  
+
   if (!modal || !modalBody) return;
-  
+
+  // Production annuelle: utiliser celle de Gemini si disponible, sinon calcul standard
+  const annualProduction = result.annualProduction || (result.estimatedKwc * 1000);
+  const hasAiRecommendations = result.aiAnalysis && result.aiAnalysis.length > 50;
+
   // Construire le HTML du résultat
   const resultHTML = `
     <h2>🎉 Félicitations ${result.name.split(' ')[0]} !</h2>
@@ -317,6 +326,14 @@ function showEligibilityResult(result) {
     <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px;">
       Prime autoconsommation estimée pour <strong>${result.estimatedKwc}kWc</strong>
     </p>
+
+    ${hasAiRecommendations ? `
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+      <h3 style="margin: 0 0 12px 0; font-size: 1.1rem;">🤖 Analyse IA Personnalisée</h3>
+      <p style="margin: 0; line-height: 1.6; font-size: 0.95rem;">${result.aiAnalysis}</p>
+    </div>
+    ` : ''}
+
     <ul style="list-style: none; padding: 0;">
       <li style="padding: 12px 0; border-bottom: 1px solid #e0e0e0;">
         ✓ TVA réduite 5.5% (économie ~${result.tvaEconomy}€)
@@ -328,7 +345,8 @@ function showEligibilityResult(result) {
         ${result.estimatedKwc >= 6 ? '✓ Éligible Éco-PTZ 15000€ sans intérêts' : '✓ Exonération impôts si <3kWc'}
       </li>
       <li style="padding: 12px 0;">
-        ✓ Production estimée: ${result.estimatedKwc * 1000}kWh/an
+        ✓ Production estimée: <strong>${Math.round(annualProduction).toLocaleString('fr-FR')} kWh/an</strong>
+        ${hasAiRecommendations ? '<br><small style="color: #666;">Calculé selon votre zone géographique</small>' : ''}
       </li>
     </ul>
     <p style="margin-top: 30px; padding: 20px; background: #f0f9ff; border-radius: 8px; text-align: center;">
@@ -339,7 +357,7 @@ function showEligibilityResult(result) {
       Parfait, j'attends l'appel
     </button>
   `;
-  
+
   modalBody.innerHTML = resultHTML;
   modal.style.display = 'flex';
   
@@ -382,34 +400,83 @@ async function analyzeEligibilityWithGemini(formData) {
     const roofArea = parseInt(formData.roof_area) || 30;
     const propertyType = formData.property_type === 'house' ? 'Maison individuelle' : 'Appartement';
     const ownerStatus = formData.owner_status === 'owner' ? 'Propriétaire' : 'Locataire';
-    
-    const prompt = `Tu es un expert en panneaux solaires photovoltaïques en France. Analyse l'éligibilité et calcule précisément les aides 2025.
 
-INFORMATIONS CLIENT:
+    // Déterminer la zone d'ensoleillement selon le département
+    const postalCode = formData.zipcode || "75000";
+    const dept = postalCode.substring(0, 2);
+    let solarZone = "moyenne";
+    let solarFactor = 1100; // kWh/kWc/an
+
+    // Sud de la France (excellent ensoleillement)
+    if (['06', '13', '83', '84', '30', '34', '66', '11', '09', '31', '32', '40', '64', '65'].includes(dept)) {
+      solarZone = "excellente (Sud de la France)";
+      solarFactor = 1300;
+    }
+    // Nord/Nord-Est (ensoleillement faible)
+    else if (['59', '62', '80', '02', '08', '51', '54', '55', '57', '67', '68', '88'].includes(dept)) {
+      solarZone = "faible (Nord de la France)";
+      solarFactor = 950;
+    }
+    // Ouest (bon ensoleillement)
+    else if (['29', '35', '44', '56', '85', '17', '33'].includes(dept)) {
+      solarZone = "bonne (Ouest/Atlantique)";
+      solarFactor = 1150;
+    }
+
+    const prompt = `Tu es un expert en panneaux solaires photovoltaïques en France. Analyse cette demande de manière PERSONNALISÉE et INTELLIGENTE.
+
+DONNÉES CLIENT (FRANCE ${new Date().getFullYear()}):
 - Type de bien: ${propertyType}
 - Statut: ${ownerStatus}
-- Code postal: ${formData.zipcode}
+- Code postal: ${formData.zipcode} (Département ${dept})
+- Zone d'ensoleillement: ${solarZone}
 - Surface toiture disponible: ${roofArea}m²
 
-CALCULS REQUIS (2025):
-1. Puissance estimée (kWc): Basée sur la surface toiture (environ 3kWc par 10m², max 9kWc)
-   - Surface ${roofArea}m² → Calcul: ${roofArea}/10 * 3 = ${Math.floor(roofArea / 10) * 3}kWc (limité à 9kWc max)
-2. Prime autoconsommation 2025: 80€ par kWc installé
-3. TVA réduite 5.5%: Économie de ~14.5% sur le coût installation
+TA MISSION - ANALYSE INTELLIGENTE:
+1. Calculer la puissance optimale (kWc) en tenant compte de:
+   - Surface toiture (règle: 1kWc nécessite 8-10m² selon orientation/inclinaison)
+   - Type de bien (maison = plus flexible, appartement = contraintes copropriété)
+   - Zone géographique et ensoleillement (${solarZone})
+   - Réglementation: max 9kWc pour prime autoconsommation optimale
+   - Vérifier cohérence: une surface de ${roofArea}m² peut-elle supporter la puissance calculée?
 
-IMPORTANT: 
-- Si locataire: eligible = false
-- Si propriétaire maison: eligible = true, calculer selon surface
-- Si propriétaire appartement: eligible = true mais puissance limitée à 3-6kWc
+2. Calculer les aides financières 2025:
+   - Prime autoconsommation: 80€/kWc (tarif officiel 2025)
+   - Estimer la TVA réduite 5.5% vs 20%
+   - Identifier autres aides selon profil
 
-Réponds UNIQUEMENT en JSON valide (pas de texte avant/après):
+3. Estimer la production annuelle réaliste:
+   - Formule: kWc × ${solarFactor} kWh/an (facteur selon zone ${solarZone})
+   - Ajuster selon type de bien
+
+4. Recommandations SPÉCIFIQUES à CE client:
+   - Basées sur son profil exact (${propertyType}, ${ownerStatus}, zone ${solarZone})
+   - Conseils d'optimisation
+   - Aides supplémentaires adaptées
+
+RÈGLES STRICTES:
+- Locataire = TOUJOURS inéligible (aucune exception)
+- Propriétaire maison = éligible si surface suffisante (≥15m²)
+- Propriétaire appartement = éligible mais limité (généralement 3-6kWc max)
+- Cohérence surface/puissance: ne pas proposer 9kWc sur 20m²!
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE (sans markdown, sans texte avant/après):
 {
-  "eligible": true/false,
-  "estimatedKwc": ${Math.min(Math.floor(roofArea / 10) * 3, 9)},
-  "primeAmount": ${Math.min(Math.floor(roofArea / 10) * 3, 9) * 80},
-  "recommendations": "recommandations personnalisées en français",
-  "additionalAids": ["liste des aides supplémentaires"]
-}`;
+  "eligible": true ou false (selon règles strictes),
+  "estimatedKwc": nombre réaliste entre 3 et 9 (cohérent avec surface),
+  "primeAmount": nombre (estimatedKwc × 80),
+  "annualProduction": nombre en kWh (estimatedKwc × ${solarFactor}),
+  "recommendations": "Analyse DÉTAILLÉE et PERSONNALISÉE (4-5 phrases) expliquant POURQUOI ces chiffres pour CE client précis, avec conseils adaptés à sa situation",
+  "additionalAids": ["liste aides supplémentaires possibles: MaPrimeRénov', CEE, aides locales selon département ${dept}"],
+  "analysisDetails": {
+    "solarZone": "${solarZone}",
+    "productionFactor": ${solarFactor},
+    "surfaceAdequacy": "est-ce que ${roofArea}m² est suffisant/optimal pour la puissance proposée?",
+    "optimizationTips": "conseils spécifiques orientation/inclinaison pour zone ${solarZone}"
+  }
+}
+
+EXIGENCE: Adapte VRAIMENT tes calculs au profil. Un appartement à Paris (${dept === '75' ? 'oui' : 'non'}) n'aura PAS les mêmes recommandations qu'une maison à Marseille. Sois intelligent!`;
 
     const response = await fetch(`${GEMINI_CONFIG.API_URL}?key=${GEMINI_CONFIG.API_KEY}`, {
       method: 'POST',
