@@ -1,6 +1,18 @@
 # 🤖 Agents Instructions - ARIEL SOLAR PANELS KAVKOM
 
-## 📋 Règles Principales
+## 📋 DOCUMENT PRINCIPAL
+
+**Lis et suis TOUTES les instructions de ce document :**
+
+👉 **`agents/MESSAGE_AGENTS.md`**
+
+Ce document contient les règles pour gérer 10+ projets avec automation complète.
+
+**AVANT toute action sur un projet, consulte ce document.**
+
+---
+
+## 🎯 RÈGLES PRINCIPALES (Résumé)
 
 ### 1. MEMORY FIRST 🧠
 - TOUJOURS checker `checkpoint-memory.sh` avant demander
@@ -21,7 +33,7 @@
 
 ## 📁 Fichiers
 
-- `AGENTS_INSTRUCTIONS.md` - Instructions complètes (628 lignes)
+- **`MESSAGE_AGENTS.md`** ⭐ - **DOCUMENT PRINCIPAL** (lis ceci en premier!)
 - `SYNC.md` - Coordination entre agents
 - `README.md` - Ce fichier (guide rapide)
 
@@ -29,8 +41,11 @@
 
 ## 🚀 Quick Start
 
-1. **Avant de commencer:**
+1. **AVANT toute action:**
    ```bash
+   # Lire le document principal
+   cat agents/MESSAGE_AGENTS.md
+   
    # Check Memory
    checkpoint-memory.sh get-api web3forms
    
@@ -54,4 +69,12 @@
 
 ---
 
-**Voir `AGENTS_INSTRUCTIONS.md` pour détails complets.**
+## 📍 Emplacements
+
+- **Local:** `agents/MESSAGE_AGENTS.md`
+- **GitHub:** https://github.com/CodeNoLimits/universal-project-automation/blob/main/MESSAGE_AGENTS.md
+- **Template:** `~/.claude/templates/universal-project-automation/MESSAGE_AGENTS.md`
+
+---
+
+**Voir `MESSAGE_AGENTS.md` pour détails complets.**
