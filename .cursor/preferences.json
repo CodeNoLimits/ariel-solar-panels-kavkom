@@ -1,0 +1,47 @@
+{
+  "model": "claude-3.5-sonnet",
+  "temperature": 0.7,
+  "maxTokens": 4000,
+  "autocompleteEnabled": true,
+  "composerEnabled": true,
+  "chatEnabled": true,
+  
+  "rules": {
+    "enabled": true,
+    "file": ".cursorrules",
+    "autoRead": true
+  },
+  
+  "behavior": {
+    "autonomous": true,
+    "askPermission": false,
+    "fixErrors": true,
+    "completeFeatures": true,
+    "testCode": true,
+    "shipTime": 300
+  },
+  
+  "context": {
+    "maxLength": 100000,
+    "includeWorkspaceFiles": true,
+    "includeGitHistory": false,
+    "excludePatterns": [
+      "*.png",
+      "*.jpg",
+      "*.jpeg",
+      "*.md",
+      "!README.md",
+      "!.cursorrules",
+      "node_modules/**",
+      ".git/**"
+    ]
+  },
+  
+  "project": {
+    "type": "html-css-js",
+    "deployment": "netlify",
+    "email": "web3forms",
+    "ai": "gemini"
+  }
+}
+

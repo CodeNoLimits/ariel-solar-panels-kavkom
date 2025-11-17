@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <!-- Navigation générée par navigation.js -->
@@ -36,7 +35,9 @@
                 <!-- Formulaire Contact -->
                 <div>
                     <h2 style="margin-bottom: 30px;">Envoyez-nous un Message</h2>
-                    <form id="contact-form" class="eligibility-form" netlify>
+                    <form id="contact-page-form" class="contact-form">
+                        <!-- Web3Forms Access Key -->
+                        <input type="hidden" name="access_key" value="64016fc4-c7dd-4edf-ba28-14d3ba05b875">
                         <div class="form-row">
                             <label for="contact-name">Nom complet *</label>
                             <input type="text" name="name" id="contact-name" placeholder="Votre nom" required>
@@ -103,7 +104,7 @@
     <!-- Footer généré par navigation.js -->
 
     <script src="navigation.js"></script>
-    <script src="script.js"></script>
+    <script src="contact-form.js"></script>
 </body>
 </html>
 

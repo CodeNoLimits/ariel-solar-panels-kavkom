@@ -1,0 +1,76 @@
+{
+  "cursor.ai.model": "claude-3.5-sonnet",
+  "cursor.ai.temperature": 0.7,
+  "cursor.ai.maxTokens": 4000,
+  "cursor.ai.systemPrompt": "You are an expert web developer specializing in HTML/CSS/JavaScript. You work autonomously, implement complete features, and never ask for permission. Always test your code and ensure it works before finishing. Read .cursorrules for project-specific instructions. Ship working code in < 5 minutes.",
+  
+  "cursor.rules.enabled": true,
+  "cursor.rules.file": ".cursorrules",
+  
+  "cursor.chat.systemInstructions": "Read .cursorrules file for complete project instructions. Work autonomously, fix errors automatically, implement complete features. Never ask permission for code changes.",
+  
+  "cursor.composer.systemInstructions": "Read .cursorrules file for complete project instructions. Work autonomously, implement complete features in one go. Ship in 5 minutes max.",
+  
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.git": false
+  },
+  
+  "files.associations": {
+    "*.html": "html",
+    "*.css": "css",
+    "*.js": "javascript"
+  },
+  
+  "html.format.indentInnerHtml": true,
+  "html.format.wrapLineLength": 120,
+  "html.format.wrapAttributes": "auto",
+  
+  "css.validate": true,
+  "css.lint.unknownAtRules": "ignore",
+  
+  "javascript.validate.enable": true,
+  "javascript.format.enable": true,
+  "javascript.suggest.autoImports": false,
+  
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.netlify/**": true,
+    "**/.vercel/**": true
+  },
+  
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/.netlify": true,
+    "**/.vercel": true,
+    "**/*.png": true,
+    "**/*.jpg": true,
+    "**/*.jpeg": true
+  },
+  
+  "cursor.chat.maxContextLength": 50000,
+  "cursor.chat.includeWorkspaceFiles": true,
+  "cursor.chat.includeGitHistory": false,
+  
+  "cursor.composer.enabled": true,
+  "cursor.composer.maxContextLength": 100000,
+  
+  "cursor.autocomplete.enabled": true,
+  "cursor.autocomplete.suggestOnTriggerCharacters": true,
+  "cursor.autocomplete.acceptSuggestionOnCommitCharacter": true
+}
+

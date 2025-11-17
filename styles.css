@@ -1471,3 +1471,132 @@ p {
     padding: 6px 12px;
   }
 }
+
+/* ============================================
+   CLASSES RÉUTILISABLES V2 (Extraction styles inline)
+   ============================================ */
+
+/* Hero compact (pour pages secondaires) */
+.hero-compact {
+  padding: 120px 0 80px;
+  min-height: 60vh;
+}
+
+/* Grid 2 colonnes */
+.grid-2-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* Grid 2 colonnes alignées en haut */
+.grid-2-cols-start {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Section padding standard */
+.section-padding {
+  padding: 80px 0;
+}
+
+/* Card blanche avec ombre */
+.card-white {
+  background: var(--white);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+/* Card blanche large */
+.card-white-large {
+  background: var(--white);
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-large);
+}
+
+/* Titre section avec marge */
+.section-title-margin {
+  margin-bottom: 30px;
+}
+
+/* Formulaire contact */
+.contact-form {
+  max-width: 100%;
+  background: var(--white);
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-large);
+}
+
+.contact-form textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-family: inherit;
+  resize: vertical;
+  transition: var(--transition);
+}
+
+.contact-form textarea:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 8px rgba(255, 107, 0, 0.1);
+}
+
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+}
+
+/* Messages formulaire */
+.form-message {
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+.form-message-error {
+  background: #fee;
+  color: #c33;
+  border-left: 4px solid #c33;
+}
+
+.form-message-success {
+  background: #efe;
+  color: #3c3;
+  border-left: 4px solid #3c3;
+}
+
+/* Loader formulaire */
+.form-loader {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive grid 2 colonnes */
+@media (max-width: 1024px) {
+  .grid-2-cols,
+  .grid-2-cols-start {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}

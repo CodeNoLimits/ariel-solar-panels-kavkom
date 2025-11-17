@@ -1,0 +1,33 @@
+{
+  "model": "claude-3.5-sonnet",
+  "temperature": 0.7,
+  "maxTokens": 4000,
+  "autonomous": true,
+  "askPermission": false,
+  
+  "instructions": {
+    "file": ".claude-code-instructions.md",
+    "autoRead": true
+  },
+  
+  "behavior": {
+    "fixErrors": true,
+    "completeFeatures": true,
+    "testCode": true,
+    "shipTime": 300
+  },
+  
+  "project": {
+    "type": "html-css-js",
+    "deployment": "netlify",
+    "email": "web3forms",
+    "ai": "gemini"
+  },
+  
+  "coordination": {
+    "checkCursorSync": true,
+    "checkGitStatus": true,
+    "createBranches": true
+  }
+}
+

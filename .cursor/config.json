@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "enabled": true,
+    "file": ".cursorrules",
+    "autoRead": true,
+    "priority": "high"
+  },
+  "instructions": {
+    "file": ".cursor/instructions.md",
+    "autoRead": true
+  },
+  "settings": {
+    "file": ".cursor/settings.json",
+    "autoLoad": true
+  }
+}

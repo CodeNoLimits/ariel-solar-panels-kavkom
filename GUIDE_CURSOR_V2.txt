@@ -1,0 +1,27 @@
+# GUIDE CURSOR V2 - COLLABORATION OPTIMALE
+
+Ce guide explique à Cursor AI comment collaborer avec Auto.
+
+## RÔLES
+- Auto: Architecture, corrections critiques, nouvelles features
+- Cursor: Aide contextuelle, suggestions, détection erreurs
+
+## RÈGLES
+1. Vérifier git status avant modifications importantes
+2. Lire .cursorrules pour standards
+3. Ne pas modifier clés API ou secrets
+4. Demander confirmation pour changements architecture
+
+## STRUCTURE V2
+- eligibility-form: index.html (géré par script.js)
+- contact-page-form: contact.html (géré par contact-form.js)
+- EmailJS retiré (Web3Forms uniquement)
+- Classes CSS réutilisables ajoutées
+
+## BUGS CORRIGÉS V2
+✅ Conflit ID formulaires résolu
+✅ Formulaire contact fonctionnel
+✅ EmailJS retiré
+✅ Styles CSS extraits
+
+Voir CHANGELOG_V2.md pour détails complets.

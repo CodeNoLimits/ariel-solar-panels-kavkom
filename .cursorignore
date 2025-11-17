@@ -1,0 +1,52 @@
+# Fichiers à ignorer par Cursor AI
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+*.ico
+
+# Screenshots
+screenshot-*.png
+screenshot-*.jpg
+
+# Documentation (trop volumineuse pour contexte)
+*.md
+!README.md
+!.cursorrules
+
+# Build et cache
+node_modules/
+dist/
+build/
+.netlify/
+.vercel/
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Temporaires
+tmp/
+temp/
+*.tmp
+

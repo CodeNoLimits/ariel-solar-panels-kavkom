@@ -1,6 +1,7 @@
 /**
  * Landing Page Panneaux Solaires 2025
- * Script principal: Validation formulaire, Modal, EmailJS, Analytics, Smooth Scroll
+ * Script principal: Validation formulaire éligibilité, Modal, Analytics, Smooth Scroll
+ * Note: Formulaire contact géré par contact-form.js
  */
 
 // ============================================
@@ -25,28 +26,10 @@ const WEB3FORMS_CONFIG = {
 };
 
 // ============================================
-// CONFIGURATION EMAILJS (FALLBACK OPTIONNEL)
+// NOTE: EmailJS retiré en V2
 // ============================================
-// EmailJS peut être utilisé en alternative si Web3Forms ne convient pas
-// Pour configurer EmailJS:
-// 1. Créer un compte sur https://www.emailjs.com (gratuit jusqu'à 200 emails/mois)
-// 2. Créer un service email (Gmail, Outlook, etc.)
-// 3. Créer 2 templates:
-//    - Template LEAD: pour recevoir les nouveaux leads
-//    - Template CONFIRM: pour confirmer au client
-// 4. Remplacer les valeurs ci-dessous
-
-const EMAILJS_CONFIG = {
-  PUBLIC_KEY: 'YOUR_PUBLIC_KEY', // À remplacer par votre Public Key EmailJS
-  SERVICE_ID: 'YOUR_SERVICE_ID', // À remplacer par votre Service ID
-  TEMPLATE_LEAD: 'YOUR_TEMPLATE_LEAD_ID', // Template pour recevoir les leads
-  TEMPLATE_CONFIRM: 'YOUR_TEMPLATE_CONFIRM_ID' // Template pour confirmer au client
-};
-
-// Initialiser EmailJS (si configuré)
-if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
-  emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-}
+// Web3Forms est maintenant la seule solution utilisée
+// Plus simple, plus fiable, 250 emails/mois gratuits
 
 // ============================================
 // CONFIGURATION GEMINI AI
@@ -165,7 +148,7 @@ function initFAQ() {
 // ============================================
 
 function initForm() {
-  const form = document.getElementById('contact-form');
+  const form = document.getElementById('eligibility-form');
   
   if (!form) return;
   
@@ -288,8 +271,8 @@ function initForm() {
         ...data
       });
 
-      // Envoyer emails via EmailJS
-      await sendEmails(data, {
+      // Envoyer email via Web3Forms
+      await sendEmailWeb3Forms(data, {
         primeAmount,
         estimatedKwc,
         tvaEconomy
@@ -468,10 +451,10 @@ Réponds UNIQUEMENT en JSON valide (pas de texte avant/après):
 }
 
 // ============================================
-// ENVOI EMAILS VIA WEB3FORMS (RECOMMANDÉ) OU EMAILJS
+// ENVOI EMAIL VIA WEB3FORMS
 // ============================================
 
-async function sendEmails(formData, calculations) {
+async function sendEmailWeb3Forms(formData, calculations) {
   const leadData = {
     ...formData,
     ...calculations,
@@ -480,8 +463,8 @@ async function sendEmails(formData, calculations) {
     heure: new Date().toLocaleTimeString('fr-FR')
   };
   
-  // PRIORITÉ 1: Web3Forms (plus simple, 250 emails/mois gratuits)
-  if (WEB3FORMS_CONFIG.ACCESS_KEY && WEB3FORMS_CONFIG.ACCESS_KEY !== 'YOUR_WEB3FORMS_ACCESS_KEY') {
+  // Envoyer via Web3Forms
+  if (WEB3FORMS_CONFIG.ACCESS_KEY) {
     try {
       const web3formsData = {
         access_key: WEB3FORMS_CONFIG.ACCESS_KEY,
@@ -528,78 +511,21 @@ async function sendEmails(formData, calculations) {
       
       if (result.success) {
         console.log('✅ Email envoyé via Web3Forms avec succès:', result);
-        return; // Succès, on arrête ici
+        return;
       } else {
-        console.warn('⚠️ Web3Forms a retourné une erreur:', result);
-        // On continue avec EmailJS en fallback
+        console.error('❌ Web3Forms a retourné une erreur:', result);
+        throw new Error('Erreur Web3Forms: ' + JSON.stringify(result));
       }
     } catch (error) {
-      console.error('❌ Erreur Web3Forms, passage à EmailJS:', error);
-      // On continue avec EmailJS en fallback
+      console.error('❌ Erreur lors de l\'envoi Web3Forms:', error);
+      // Ne pas bloquer l'utilisateur - le formulaire fonctionne quand même
+      // Les données sont dans la console pour copier-coller si nécessaire
+      throw error;
     }
+  } else {
+    console.warn('⚠️ Web3Forms ACCESS_KEY non configuré');
+    throw new Error('Configuration Web3Forms manquante');
   }
-  
-  // PRIORITÉ 2: EmailJS (fallback si Web3Forms non configuré ou échoue)
-  if (EMAILJS_CONFIG.PUBLIC_KEY && EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
-    try {
-      // Email 1: Notification pour vous (nouveau lead)
-      const emailLeadParams = {
-        to_email: 'dreamaiultimate@gmail.com', // Votre email
-        from_name: formData.name,
-        from_email: formData.email,
-        phone: formData.phone,
-        zipcode: formData.zipcode,
-        property_type: formData.property_type === 'house' ? 'Maison' : 'Appartement',
-        roof_area: formData.roof_area || 'Non renseigné',
-        estimated_kwc: `${calculations.estimatedKwc}kWc`,
-        prime_amount: `${calculations.primeAmount}€`,
-        tva_economy: `${calculations.tvaEconomy}€`,
-        timestamp: leadData.timestamp,
-        message: `Nouveau lead panneaux solaires:\n\nNom: ${formData.name}\nEmail: ${formData.email}\nTéléphone: ${formData.phone}\nCode Postal: ${formData.zipcode}\nType de bien: ${formData.property_type === 'house' ? 'Maison' : 'Appartement'}\nSurface toiture: ${formData.roof_area || 'Non renseigné'}m²\n\nEstimation:\n- Puissance: ${calculations.estimatedKwc}kWc\n- Prime: ${calculations.primeAmount}€\n- Économie TVA: ${calculations.tvaEconomy}€`
-      };
-      
-      // Email 2: Confirmation pour le client
-      const emailConfirmParams = {
-        to_name: formData.name.split(' ')[0],
-        to_email: formData.email,
-        prime_amount: `${calculations.primeAmount}€`,
-        estimated_kwc: `${calculations.estimatedKwc}kWc`,
-        tva_economy: `${calculations.tvaEconomy}€`,
-        production_estimate: `${calculations.estimatedKwc * 1000}kWh/an`,
-        message: `Bonjour ${formData.name.split(' ')[0]},\n\nMerci d'avoir vérifié votre éligibilité aux aides panneaux solaires 2025.\n\nVotre estimation personnalisée:\n- Prime autoconsommation: ${calculations.primeAmount}€\n- Puissance estimée: ${calculations.estimatedKwc}kWc\n- Économie TVA: ${calculations.tvaEconomy}€\n- Production estimée: ${calculations.estimatedKwc * 1000}kWh/an\n\nUn conseiller RGE certifié vous contactera sous 24h pour un devis personnalisé gratuit.\n\nCordialement,\nL'équipe ARIEL SOLAR`
-      };
-      
-      // Envoyer les deux emails en parallèle
-      const [leadResult, confirmResult] = await Promise.all([
-        emailjs.send(
-          EMAILJS_CONFIG.SERVICE_ID,
-          EMAILJS_CONFIG.TEMPLATE_LEAD,
-          emailLeadParams
-        ),
-        emailjs.send(
-          EMAILJS_CONFIG.SERVICE_ID,
-          EMAILJS_CONFIG.TEMPLATE_CONFIRM,
-          emailConfirmParams
-        )
-      ]);
-      
-      console.log('✅ Emails envoyés via EmailJS avec succès:', {
-        lead: leadResult.status === 200,
-        confirm: confirmResult.status === 200
-      });
-      return;
-      
-    } catch (error) {
-      console.error('❌ Erreur envoi EmailJS:', error);
-    }
-  }
-  
-  // Si aucune solution n'est configurée
-  console.warn('⚠️ Aucun service email configuré (Web3Forms ou EmailJS). Veuillez configurer vos clés.');
-  console.log('📧 Lead reçu (à envoyer manuellement):', { ...formData, ...calculations });
-  
-  // Ne pas bloquer l'utilisateur - le formulaire fonctionne quand même
-  // Les données sont dans la console pour copier-coller si nécessaire
 }
 
 // ============================================
