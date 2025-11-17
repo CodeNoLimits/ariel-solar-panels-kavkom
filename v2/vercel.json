@@ -1,44 +1,28 @@
 {
-  "version": 2,
-  "name": "ariel-solar-v2",
-  "builds": [
+  "rewrites": [
     {
-      "src": "**/*.html",
-      "use": "@vercel/static"
+      "source": "/",
+      "destination": "/index-v2.html"
     },
     {
-      "src": "**/*.css",
-      "use": "@vercel/static"
+      "source": "/services",
+      "destination": "/services-v2.html"
     },
     {
-      "src": "**/*.js",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/index-v2.html"
+      "source": "/a-propos",
+      "destination": "/a-propos-v2.html"
     },
     {
-      "src": "/services",
-      "dest": "/services-v2.html"
+      "source": "/contact",
+      "destination": "/contact-v2.html"
     },
     {
-      "src": "/a-propos",
-      "dest": "/a-propos-v2.html"
+      "source": "/actualites",
+      "destination": "/actualites-v2.html"
     },
     {
-      "src": "/contact",
-      "dest": "/contact-v2.html"
-    },
-    {
-      "src": "/actualites",
-      "dest": "/actualites-v2.html"
-    },
-    {
-      "src": "/aides-financements",
-      "dest": "/aides-financements-v2.html"
+      "source": "/aides-financements",
+      "destination": "/aides-financements-v2.html"
     }
   ],
   "headers": [
@@ -60,6 +44,10 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
         }
       ]
     }
