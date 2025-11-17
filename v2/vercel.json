@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "name": "ariel-solar-v2",
+  "builds": [
+    {
+      "src": "**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.js",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index-v2.html"
+    },
+    {
+      "src": "/services",
+      "dest": "/services-v2.html"
+    },
+    {
+      "src": "/a-propos",
+      "dest": "/a-propos-v2.html"
+    },
+    {
+      "src": "/contact",
+      "dest": "/contact-v2.html"
+    },
+    {
+      "src": "/actualites",
+      "dest": "/actualites-v2.html"
+    },
+    {
+      "src": "/aides-financements",
+      "dest": "/aides-financements-v2.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}
