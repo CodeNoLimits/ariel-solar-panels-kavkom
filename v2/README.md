@@ -9,7 +9,7 @@
 
 ### Site Live:
 ```
-https://v2-9k5qekj03-dream-ais-projects.vercel.app
+https://v2-dgwexgo8p-dream-ais-projects.vercel.app
 ```
 
 ### Pages disponibles:
@@ -226,7 +226,7 @@ ARIEL SOLAR PANELS KAVKOM/
 
 ### Déploiements:
 - **V1**: Non déployée (ou ancienne URL)
-- **V2**: https://v2-9k5qekj03-dream-ais-projects.vercel.app ✅
+- **V2**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app ✅
 
 ---
 
@@ -259,7 +259,7 @@ vercel --prod --yes
 
 ### 5. Vérifier Production
 ```
-https://v2-9k5qekj03-dream-ais-projects.vercel.app
+https://v2-dgwexgo8p-dream-ais-projects.vercel.app
 ```
 
 ---
@@ -350,7 +350,7 @@ git merge claude-v2-20251117-010552
 ✅ **SEO**: Meta tags complets
 ✅ **UX**: Messages visuels élégants
 
-**Déployée sur**: https://v2-9k5qekj03-dream-ais-projects.vercel.app
+**Déployée sur**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app
 
 **Totalement séparée** de la V1 (pas de risque)
 

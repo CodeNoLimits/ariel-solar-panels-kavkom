@@ -10,7 +10,7 @@
 
 ### URL Production Vercel:
 ```
-https://v2-9k5qekj03-dream-ais-projects.vercel.app
+https://v2-dgwexgo8p-dream-ais-projects.vercel.app
 ```
 
 ### Détails Déploiement:
@@ -106,7 +106,7 @@ Puis modifier le code pour utiliser `process.env.GEMINI_API_KEY` (nécessite bui
 | **Emplacement** | Racine projet | `/v2/` sous-dossier |
 | **Fichiers** | `index.html`, `script.js`, etc. | `index-v2.html`, `script-v2.js`, etc. |
 | **Branche Git** | `main` | `claude-v2-20251117-010552` |
-| **URL Production** | Non déployée (ou ancienne) | https://v2-9k5qekj03-dream-ais-projects.vercel.app |
+| **URL Production** | Non déployée (ou ancienne) | https://v2-dgwexgo8p-dream-ais-projects.vercel.app |
 | **Formulaire Contact** | ❌ Non fonctionnel | ✅ Fonctionnel (Web3Forms) |
 | **ID Formulaires** | ❌ Conflit (2x `contact-form`) | ✅ Corrigé (`eligibility-form` + `contact-page-form`) |
 | **EmailJS** | ⚠️ Chargé inutilement (~50KB) | ✅ Retiré |
@@ -194,7 +194,7 @@ Branche claude-v2-...: V2 (à merger si validée)
 ### Vercel:
 ```
 Projet: dream-ais-projects/v2
-URL: https://v2-9k5qekj03-dream-ais-projects.vercel.app
+URL: https://v2-dgwexgo8p-dream-ais-projects.vercel.app
 Source: Dossier v2/ local
 ```
 
@@ -238,7 +238,7 @@ cd v2/ && vercel --prod --yes
 ## 🧪 TESTS PRODUCTION À EFFECTUER
 
 ### 1. Formulaire Éligibilité
-- [ ] URL: https://v2-9k5qekj03-dream-ais-projects.vercel.app/index-v2.html
+- [ ] URL: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/index-v2.html
 - [ ] Remplir formulaire avec données test
 - [ ] Vérifier modal s'ouvre
 - [ ] Vérifier email reçu sur dreamaiultimate@gmail.com
@@ -246,7 +246,7 @@ cd v2/ && vercel --prod --yes
 - [ ] Vérifier production annuelle change selon zone
 
 ### 2. Formulaire Contact
-- [ ] URL: https://v2-9k5qekj03-dream-ais-projects.vercel.app/contact-v2.html
+- [ ] URL: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/contact-v2.html
 - [ ] Envoyer message test
 - [ ] Vérifier email reçu
 - [ ] Vérifier message succès visuel
@@ -264,7 +264,7 @@ cd v2/ && vercel --prod --yes
 
 ### 5. SEO
 - [ ] Facebook Debugger: https://developers.facebook.com/tools/debug/
-  - Entrer URL: https://v2-9k5qekj03-dream-ais-projects.vercel.app/index-v2.html
+  - Entrer URL: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/index-v2.html
   - Vérifier OG tags
 - [ ] Twitter Card Validator: https://cards-dev.twitter.com/validator
 - [ ] Google Rich Results Test: https://search.google.com/test/rich-results
@@ -293,7 +293,7 @@ cd v2/ && vercel --prod --yes
 - **Impact**: SEO sub-optimal
 - **Solution**: Remplacer par vraie URL
   ```html
-  <link rel="canonical" href="https://v2-9k5qekj03-dream-ais-projects.vercel.app/index-v2.html">
+  <link rel="canonical" href="https://v2-dgwexgo8p-dream-ais-projects.vercel.app/index-v2.html">
   ```
 
 ### 4. Images Open Graph Manquantes
@@ -330,12 +330,12 @@ cd v2/ && vercel --prod --yes
 ## 🔗 LIENS UTILES
 
 ### URLs Production:
-- **Accueil**: https://v2-9k5qekj03-dream-ais-projects.vercel.app/index-v2.html
-- **Services**: https://v2-9k5qekj03-dream-ais-projects.vercel.app/services-v2.html
-- **À Propos**: https://v2-9k5qekj03-dream-ais-projects.vercel.app/a-propos-v2.html
-- **Contact**: https://v2-9k5qekj03-dream-ais-projects.vercel.app/contact-v2.html
-- **Actualités**: https://v2-9k5qekj03-dream-ais-projects.vercel.app/actualites-v2.html
-- **Aides**: https://v2-9k5qekj03-dream-ais-projects.vercel.app/aides-financements-v2.html
+- **Accueil**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/index-v2.html
+- **Services**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/services-v2.html
+- **À Propos**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/a-propos-v2.html
+- **Contact**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/contact-v2.html
+- **Actualités**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/actualites-v2.html
+- **Aides**: https://v2-dgwexgo8p-dream-ais-projects.vercel.app/aides-financements-v2.html
 
 ### Dashboards:
 - **Vercel Dashboard**: https://vercel.com/dream-ais-projects/v2
@@ -399,7 +399,7 @@ git push origin v2.0.0
 - Recommandations contextuelles
 
 ### 🌐 Production:
-**https://v2-9k5qekj03-dream-ais-projects.vercel.app**
+**https://v2-dgwexgo8p-dream-ais-projects.vercel.app**
 
 ---
 
