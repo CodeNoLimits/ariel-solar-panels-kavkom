@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /.git/
+Disallow: /v2/
+Sitemap: https://ariel-solar-panels.netlify.app/sitemap.xml
